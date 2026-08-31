@@ -61,8 +61,16 @@ const galleryBottom = [
 
 export default function App() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 520);
+  const [mobileSlide, setMobileSlide] = useState(0);
 
   const allGalleryImages = useMemo(() => [...galleryTop, ...galleryBottom], []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 520);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const openModalBySrc = (src) => {
     const idx = allGalleryImages.findIndex((img) => img === src);
@@ -79,6 +87,18 @@ export default function App() {
 
   const goNext = () => {
     setActiveIndex((prev) =>
+      prev === allGalleryImages.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const goMobilePrev = () => {
+    setMobileSlide((prev) =>
+      prev === 0 ? allGalleryImages.length - 1 : prev - 1
+    );
+  };
+
+  const goMobileNext = () => {
+    setMobileSlide((prev) =>
       prev === allGalleryImages.length - 1 ? 0 : prev + 1
     );
   };
@@ -119,18 +139,25 @@ export default function App() {
 
       <section id="galeria" className="section card">
         <h2>GALERIA</h2>
-        <Gallery images={galleryTop} onOpen={openModalBySrc} />
+
+        {!isMobile ? (
+          <Gallery images={allGalleryImages} onOpen={openModalBySrc} />
+        ) : (
+          <MobileCarousel
+            images={allGalleryImages}
+            index={mobileSlide}
+            onPrev={goMobilePrev}
+            onNext={goMobileNext}
+            onOpen={openModalBySrc}
+          />
+        )}
+
+        <p className="residency-note">Residente de Colission</p>
       </section>
 
       <section id="biografia" className="section card">
         <h2>BIOGRAFIA</h2>
         <p className="bio-text">{data.bio}</p>
-      </section>
-
-      <section className="section card">
-        <h2>GALERIA</h2>
-        <Gallery images={galleryBottom} onOpen={openModalBySrc} />
-        <p className="residency-note">Residente de Colission</p>
       </section>
 
       <section id="videos" className="section card">
@@ -227,6 +254,32 @@ function Gallery({ images, onOpen }) {
           <img src={src} alt={`Galeria ${i + 1}`} />
         </button>
       ))}
+    </div>
+  );
+}
+
+function MobileCarousel({ images, index, onPrev, onNext, onOpen }) {
+  return (
+    <div className="mobile-carousel">
+      <button className="mobile-carousel-btn" onClick={onPrev} aria-label="Anterior">
+        ‹
+      </button>
+
+      <button
+        className="mobile-carousel-image-wrap"
+        onClick={() => onOpen(images[index])}
+        aria-label={`Abrir imagen ${index + 1}`}
+      >
+        <img src={images[index]} alt={`Galeria ${index + 1}`} className="mobile-carousel-image" />
+      </button>
+
+      <button className="mobile-carousel-btn" onClick={onNext} aria-label="Siguiente">
+        ›
+      </button>
+
+      <p className="mobile-carousel-counter">
+        {index + 1} / {images.length}
+      </p>
     </div>
   );
 }

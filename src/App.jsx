@@ -36,27 +36,27 @@ Actualmente es residente de colission, ciclo que ya ha podido representar en dif
   contact: [
     {
       label: "SoundCloud",
-      image: "/src/assets/presskit/sound.jpg",
+      image: "/presskit/sound.jpg",
       url: "https://on.soundcloud.com/pG5311gf3LX5lfVlZn",
     },
     {
       label: "Instagram",
-      image: "/src/assets/presskit/inst.jpg",
+      image: "/presskit/inst.jpg",
       url: "https://www.instagram.com/del.0rt?igsh=dDM4ZjZxY3hqbGEw",
     },
   ],
 };
 
 const galleryTop = [
-  "/src/assets/presskit/pic1.jpg",
-  "/src/assets/presskit/pic2.jpg",
-  "/src/assets/presskit/pic3.jpg",
+  "/presskit/pic1.jpg",
+  "/presskit/pic2.jpg",
+  "/presskit/pic3.jpg",
 ];
 
 const galleryBottom = [
-  "/src/assets/presskit/pic4.jpg",
-  "/src/assets/presskit/pic5.jpg",
-  "/src/assets/presskit/hero.jpg",
+  "/presskit/pic4.jpg",
+  "/presskit/pic5.jpg",
+  "/presskit/hero.jpg",
 ];
 
 export default function App() {
@@ -113,7 +113,7 @@ export default function App() {
           <p className="tagline">{data.tagline}</p>
         </div>
         <div className="hero-right">
-          <img src="/src/assets/presskit/hero.jpg" alt="DEL´ØRT hero" />
+          <img src="/presskit/hero.jpg" alt="DEL´ØRT hero" />
         </div>
       </section>
 

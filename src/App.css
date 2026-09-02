@@ -7,16 +7,23 @@
   --accent: #ffffff;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  scroll-behavior: smooth;
 }
 
 html,
 body,
 #root {
   margin: 0;
+  width: 100%;
   min-height: 100%;
+  overflow-x: hidden; /* evita desborde horizontal en mobile */
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -26,15 +33,17 @@ body {
 }
 
 .epk {
-  max-width: 1100px;
-  margin: 20px auto 30px;
-  padding: 0 14px 30px;
+  width: 100%;
+  max-width: none; /* antes 1100px: limitaba desktop */
+  margin: 0;
+  padding: 10px;
 }
 
 .card {
   background: var(--bg);
   border: 1px solid #121216;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  width: 100%;
 }
 
 /* NAV STICKY */
@@ -78,6 +87,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
 }
 
 .kicker {
@@ -93,12 +103,18 @@ body {
   line-height: 1;
   letter-spacing: 0.04em;
   color: var(--accent);
+  overflow-wrap: anywhere;
 }
 
 .tagline {
   margin-top: 14px;
   color: #d4d4d8;
   font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.hero-right {
+  min-width: 0;
 }
 
 .hero-right img {
@@ -113,7 +129,7 @@ body {
 .section {
   margin-top: 10px;
   padding: 22px;
-  scroll-margin-top: 84px; /* evita que sticky nav tape títulos al navegar */
+  scroll-margin-top: 84px;
 }
 
 .section h2 {
@@ -125,7 +141,7 @@ body {
 /* GALERIAS */
 .gallery3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -134,6 +150,7 @@ body {
   padding: 0;
   background: transparent;
   cursor: pointer;
+  min-width: 0;
 }
 
 .gallery3 img {
@@ -157,12 +174,18 @@ body {
   letter-spacing: 0.04em;
 }
 
+/* MOBILE CAROUSEL */
+.mobile-carousel {
+  display: none;
+}
+
 /* BIO */
 .bio-text {
   margin: 0;
   white-space: pre-line;
   color: #d4d4d8;
   line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 /* VIDEOS */
@@ -206,14 +229,15 @@ body {
 /* CONTACTO */
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(2, 180px);
+  grid-template-columns: repeat(2, minmax(0, 180px));
   justify-content: center;
   gap: 16px;
 }
 
 .contact-card {
   display: block;
-  width: 180px;
+  width: 100%;
+  max-width: 180px;
   height: 180px;
   border: 1px solid var(--line);
   overflow: hidden;
@@ -232,6 +256,56 @@ body {
   object-fit: cover;
   object-position: center;
   display: block;
+}
+
+/* FOOTER */
+.footer-credit {
+  margin-top: 10px;
+  padding: 18px 16px;
+  text-align: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.footer-credit p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.footer-credit a {
+  color: #e4e4e7;
+  text-decoration: none;
+}
+
+.footer-credit p a {
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-credit p a:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.footer-logo-link {
+  display: inline-block;
+}
+
+.footer-logo {
+  display: block;
+  width: min(240px, 80vw);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.98;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer-logo-link:hover .footer-logo {
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
 /* MODAL */
@@ -297,7 +371,7 @@ body {
   }
 
   .gallery3 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .gallery3 img {
@@ -307,7 +381,7 @@ body {
 
 @media (max-width: 700px) {
   .epk {
-    padding: 0 10px 24px;
+    padding: 8px;
   }
 
   .nav {
@@ -340,19 +414,60 @@ body {
   }
 
   .contact-card {
-    width: 100%;
+    max-width: none;
     height: auto;
     aspect-ratio: 1 / 1;
+  }
+
+  .footer-logo {
+    width: min(220px, 78vw);
   }
 }
 
 @media (max-width: 520px) {
   .gallery3 {
-    grid-template-columns: 1fr;
+    display: none;
   }
 
-  .gallery3 img {
-    height: 240px;
+  .mobile-carousel {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .mobile-carousel-btn {
+    height: 44px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: #fff;
+    font-size: 1.4rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .mobile-carousel-image-wrap {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    min-width: 0;
+  }
+
+  .mobile-carousel-image {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    display: block;
+  }
+
+  .mobile-carousel-counter {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 
   .contact-grid {
@@ -363,5 +478,18 @@ body {
   .modal-btn.next {
     width: 38px;
     height: 38px;
+  }
+
+  .footer-credit {
+    padding: 14px 12px;
+  }
+
+  .footer-credit p {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-logo {
+    width: min(190px, 74vw);
   }
 }

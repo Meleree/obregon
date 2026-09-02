@@ -201,6 +201,33 @@ export default function App() {
         </div>
       </section>
 
+      <footer className="footer-credit card">
+        <p>
+          desarrollado por{" "}
+          <a
+            href="https://www.mgldesign.com.ar/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Ir al sitio web de MGL Design"
+          >
+            MGL Design
+          </a>
+        </p>
+        <a
+          href="https://www.mgldesign.com.ar/"
+          target="_blank"
+          rel="noreferrer"
+          className="footer-logo-link"
+          aria-label="Ir al sitio web de MGL Design"
+        >
+          <img
+            src="/presskit/logo-horizontal.png"
+            alt="Logo MGL Design"
+            className="footer-logo"
+          />
+        </a>
+      </footer>
+
       {activeIndex !== null && (
         <div className="modal" onClick={closeModal} role="dialog" aria-modal="true">
           <button className="modal-btn close" onClick={closeModal} aria-label="Cerrar">
